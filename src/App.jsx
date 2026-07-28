@@ -7,6 +7,7 @@ import Products from "./pages/Products";
 import AboutUs from "./pages/AboutUs";
 import KnowledgeCenter from "./pages/KnowledgeCenter";
 import ContactUs from "./pages/ContactUs";
+import PartnerPortal from "./pages/PartnerPortal";
 import "./index.css";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path="/success-stories" element={<AboutUs />} />
             <Route path="/knowledge-center" element={<KnowledgeCenter />} />
             <Route path="/services" element={<ContactUs />} />
+            <Route path="/partner-portal" element={<PartnerPortal />} />
           </Routes>
         </main>
         <Footer />
