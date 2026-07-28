@@ -78,14 +78,41 @@ export default function ContactUs() {
       {/* ===================== MAP ===================== */}
       <section className="pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-card rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl">
+          <div className="relative overflow-hidden rounded-3xl shadow-xl">
             <iframe
               title="Cresco Global Location"
               src="https://maps.google.com/maps?q=23.1564998,75.7868373&z=15&output=embed"
-              className="w-full h-[400px] border-0"
+              className="w-full min-h-[520px] border-0"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
+
+            <div className="absolute top-6 left-6 w-full max-w-sm rounded-3xl border border-border bg-white/95 p-6 shadow-2xl backdrop-blur-xl">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="text-xl font-semibold text-foreground mb-3">
+                    C-21 Res-COMM
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    C-21 MALL, Nanakheda, Dipti Parisar, Ujjain, Madhya Pradesh 456010, India
+                  </p>
+                  <div className="mt-4 flex items-center gap-2 text-sm font-medium text-foreground">
+                    <span className="text-primary">4.8</span>
+                    <span className="text-muted-foreground">(5 reviews)</span>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <a
+                  href="https://maps.google.com/maps?q=23.1564998,75.7868373"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary/90"
+                >
+                  Open in Maps
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
