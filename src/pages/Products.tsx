@@ -2,6 +2,8 @@ import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import {
   Building2,
+  Check,
+  ChevronDown,
   Download,
   Droplets,
   Filter,
@@ -12,7 +14,7 @@ import {
   Search,
   SlidersHorizontal,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 interface Product {
   id: number;
@@ -58,8 +60,64 @@ const applicationChips = [
   { label: "Inks", value: "Inks" },
 ];
 
-const selectClassName =
-  "w-full appearance-none rounded-lg border border-input bg-background px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/10";
+interface FilterSelectProps {
+  label: string;
+  value: string;
+  options: string[];
+  isOpen: boolean;
+  onToggle: () => void;
+  onChange: (value: string) => void;
+}
+
+function FilterSelect({ label, value, options, isOpen, onToggle, onChange }: FilterSelectProps) {
+  const allOption = `All ${label}s`;
+  const displayValue = value === "All" ? allOption : value;
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        onClick={onToggle}
+        className="flex w-full items-center justify-between gap-3 rounded-lg border border-input bg-background px-4 py-3 text-left text-sm text-foreground transition-colors hover:border-primary/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10"
+      >
+        <span className="truncate">{displayValue}</span>
+        <ChevronDown size={17} className={`shrink-0 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`} />
+      </button>
+
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -4, scale: 0.99 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.14, ease: "easeOut" }}
+          className="absolute left-0 right-0 z-20 mt-2 overflow-hidden rounded-lg border border-border bg-popover p-1 shadow-elevated"
+          role="listbox"
+          aria-label={label}
+        >
+          {["All", ...options].map((option) => {
+            const isSelected = option === value;
+            const optionLabel = option === "All" ? allOption : option;
+
+            return (
+              <button
+                key={option}
+                type="button"
+                role="option"
+                aria-selected={isSelected}
+                onClick={() => onChange(option)}
+                className={`flex w-full items-center justify-between gap-3 rounded-md px-3 py-2.5 text-left text-sm transition-colors ${isSelected ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-muted hover:text-primary"}`}
+              >
+                <span className="truncate">{optionLabel}</span>
+                {isSelected && <Check size={16} className="shrink-0" />}
+              </button>
+            );
+          })}
+        </motion.div>
+      )}
+    </div>
+  );
+}
 
 function FilterBar({
   search,
@@ -77,6 +135,8 @@ function FilterBar({
   onMethodChange,
   onApplicationChange,
 }: FilterBarProps) {
+  const [openField, setOpenField] = useState<string | null>(null);
+  const filterRef = useRef<HTMLElement>(null);
   const selectFields = [
     { label: "Company", value: company, options: companies, onChange: onCompanyChange },
     { label: "Country", value: country, options: countries, onChange: onCountryChange },
@@ -84,8 +144,19 @@ function FilterBar({
     { label: "Application", value: application, options: applications, onChange: onApplicationChange },
   ];
 
+  useEffect(() => {
+    const closeOnOutsideClick = (event: MouseEvent) => {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        setOpenField(null);
+      }
+    };
+
+    document.addEventListener("mousedown", closeOnOutsideClick);
+    return () => document.removeEventListener("mousedown", closeOnOutsideClick);
+  }, []);
+
   return (
-    <motion.section {...fadeUp} className="mb-10 rounded-xl border border-border bg-card p-6 shadow-card md:p-8">
+    <motion.section ref={filterRef} {...fadeUp} className="mb-10 rounded-xl border border-border bg-card p-6 shadow-card md:p-8">
       <div className="mb-6 flex items-center gap-3">
         <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
           <SlidersHorizontal size={20} />
@@ -113,17 +184,16 @@ function FilterBar({
         </div>
 
         {selectFields.map((field) => (
-          <label key={field.label} className="block">
-            <span className="sr-only">Filter by {field.label}</span>
-            <select value={field.value} onChange={(event) => field.onChange(event.target.value)} className={selectClassName}>
-              <option value="All">All {field.label}s</option>
-              {field.options.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </label>
+          <FilterSelect
+            key={field.label}
+            {...field}
+            isOpen={openField === field.label}
+            onToggle={() => setOpenField((current) => current === field.label ? null : field.label)}
+            onChange={(value) => {
+              field.onChange(value);
+              setOpenField(null);
+            }}
+          />
         ))}
       </div>
     </motion.section>
