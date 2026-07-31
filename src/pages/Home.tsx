@@ -27,7 +27,7 @@ const expertise = [
 const heroStats = [
   { icon: TrendingUp, value: "500+", label: "Active Buyers", trend: "+12.5%" },
   { icon: Users, value: "20+", label: "Global Partners", trend: "+8.3%" },
-  { icon: Truck, value: "3700 MT", label: "Deliveries", trend: "+15.7%" },
+  { icon: Truck, value: "3900 MT", label: "Deliveries", trend: "+15.7%" },
   { icon: Globe, value: "13+", label: "States", trend: "+3" },
 ];
 
@@ -62,7 +62,7 @@ const testimonials = [
 ];
 
 const numbers = [
-  { Icon: DollarSign, iconClass: "text-success", value: "3900MT", label: "Trade Volume Facilitated", desc: "Total international trade executed in 2025" },
+  { Icon: DollarSign, iconClass: "text-success", value: "3900 MT", label: "Trade Volume Facilitated", desc: "Total domestic trade executed till mid 2026" },
   { Icon: Users, iconClass: "text-primary", value: "500+", label: "Active Buyer Network", desc: "Manufacturers procuring regularly" },
   { Icon: Globe, iconClass: "text-accent", value: "13+", label: "States Covered", desc: "Performance additives supplied across India" },
   { Icon: Headphones, iconClass: "text-secondary", value: "24/7", label: "Support Availability", desc: "Round-the-clock customer assistance" },
@@ -130,14 +130,14 @@ export default function Home() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <a href="tel:+919175775765" className="w-full sm:w-auto">
+                  <a href="tel:+919175775763" className="w-full sm:w-auto">
                     <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 bg-accent hover:bg-accent/90 text-white w-full sm:w-auto">
                       <Phone size={18} className="mr-2" />
                       Call Now
                     </button>
                   </a>
                   <a
-                    href="https://wa.me/919175775765"
+                    href="https://wa.me/919175775763?text=Hi%20I%20am%20Interested%20to%20Buy%20Tio2%20and%20Additives%20from%20Cresco%0AGrade%20-%0AQuantity%20-%0ALocation-"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full sm:w-auto"
@@ -180,7 +180,7 @@ export default function Home() {
                         <span className="ml-1">{trend}</span>
                       </div>
                     </div>
-                    <div className="text-2xl md:text-3xl font-bold text-white mb-1">{value}</div>
+                    <div className="text-3xl md:text-4xl font-bold text-white mb-1">{value}</div>
                     <div className="text-xs md:text-sm text-white/70">{label}</div>
                   </div>
                 ))}
@@ -383,12 +383,16 @@ export default function Home() {
                 and transparent import-driven solutions.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/services">
+                <a
+                  href="https://wa.me/919175775763?text=Hi%20I%20am%20Interested%20to%20Buy%20Tio2%20and%20Additives%20from%20Cresco%0AGrade%20-%0AQuantity%20-%0ALocation-"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 bg-accent hover:bg-accent/90 text-white">
                     <Rocket size={18} className="mr-2" />
                     Connect with us
                   </button>
-                </Link>
+                </a>
               </div>
             </motion.div>
 

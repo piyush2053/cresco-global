@@ -40,7 +40,7 @@ export default function ContactUs() {
           >
             <h3 className="text-xl font-semibold mb-4">Contact</h3>
             <p className="text-muted-foreground">
-              <a href="tel:+919175775765" className="hover:text-primary transition-colors">
+              <a href="tel:+919175775763" className="hover:text-primary transition-colors">
                 +91 91 757 757 65
               </a>
             </p>

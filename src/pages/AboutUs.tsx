@@ -117,14 +117,14 @@ export default function AboutUs() {
                 Connect with us
               </button>
             </Link>
-            <a href="tel:+919175775765" className="w-full sm:w-auto">
+            <a href="tel:+919175775763" className="w-full sm:w-auto">
               <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 bg-accent w-full hover:bg-accent/90 text-white">
                 <Phone size={18} className="mr-2" />
                 Call Now
               </button>
             </a>
             <a
-              href="https://wa.me/919175775765"
+              href="https://wa.me/919175775763"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto"
@@ -235,7 +235,7 @@ export default function AboutUs() {
                   </div>
                   <div className="flex flex-col sm:flex-row gap-3">
                     <a
-                      href="https://wa.me/919175775765"
+                      href="https://wa.me/919175775763"
                       target="_blank"
                       rel="noopener noreferrer"
                     >

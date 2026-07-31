@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Shield, Lock, Globe } from "lucide-react";
-import { FaLinkedin, FaInstagram } from "react-icons/fa6";
+import { FaLinkedin, FaInstagram, FaWhatsapp } from "react-icons/fa6";
 
 export default function Footer() {
   return (
@@ -40,6 +40,15 @@ export default function Footer() {
                 aria-label="Instagram"
               >
                 <FaInstagram size={18} />
+              </a>
+              <a
+                href="https://wa.me/919175775763?text=Hi%20I%20am%20Interested%20to%20Buy%20Tio2%20and%20Additives%20from%20Cresco%0AGrade%20-%0AQuantity%20-%0ALocation-"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-lg bg-muted hover:bg-primary text-muted-foreground hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
+                aria-label="WhatsApp"
+              >
+                <FaWhatsapp size={18} />
               </a>
             </div>
           </div>

@@ -1,8 +1,6 @@
-import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import { Sparkles, UserPlus, MessageCircle, Globe, TrendingUp, Shield } from "lucide-react";
-import EnquiryModal from "../components/modals/EnquiryModal";
+import { Sparkles, MessageCircle, Globe, TrendingUp, Shield } from "lucide-react";
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
@@ -30,8 +28,6 @@ const highlights = [
 ];
 
 export default function PartnerPortal() {
-  const [modalOpen, setModalOpen] = useState(false);
-
   return (
     <>
       <Helmet>
@@ -64,15 +60,8 @@ export default function PartnerPortal() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button
-                onClick={() => setModalOpen(true)}
-                className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 bg-accent hover:bg-accent/90 text-white w-full sm:w-auto"
-              >
-                <UserPlus size={18} className="mr-2" />
-                Connect with us.
-              </button>
               <a
-                href="https://wa.me/919175775765"
+                href="https://wa.me/919175775763?text=Hi%20I%20am%20Interested%20to%20Buy%20Tio2%20and%20Additives%20from%20Cresco%0AGrade%20-%0AQuantity%20-%0ALocation-"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto"
@@ -102,8 +91,6 @@ export default function PartnerPortal() {
           </div>
         </div>
       </section>
-
-      <EnquiryModal open={modalOpen} onClose={() => setModalOpen(false)} />
     </>
   );
 }
