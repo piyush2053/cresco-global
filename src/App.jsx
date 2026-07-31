@@ -4,6 +4,7 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
+import ProductFileUnavailable from "./pages/ProductFileUnavailable";
 import AboutUs from "./pages/AboutUs";
 import KnowledgeCenter from "./pages/KnowledgeCenter";
 import ContactUs from "./pages/ContactUs";
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/homepage" element={<Home />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/products/:document" element={<ProductFileUnavailable />} />
             <Route path="/success-stories" element={<AboutUs />} />
             <Route path="/knowledge-center" element={<KnowledgeCenter />} />
             <Route path="/services" element={<ContactUs />} />
