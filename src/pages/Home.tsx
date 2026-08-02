@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import {
   Sparkles, Phone, MessageCircle, Shield, Lock, Award,
   TrendingUp, Users, Truck, Globe, Layers, PaintRoller, Pen,
@@ -85,6 +86,32 @@ const partnerLogos = [
 ];
 
 export default function Home() {
+  const partnerTrackRef = useRef<HTMLDivElement>(null);
+  const [partnerIndex, setPartnerIndex] = useState(0);
+  const [partnerStep, setPartnerStep] = useState(0);
+  const maxPartnerIndex = partnerLogos.length - 4;
+
+  const showNextPartner = () => setPartnerIndex((current) => current === maxPartnerIndex ? 0 : current + 1);
+  const showPreviousPartner = () => setPartnerIndex((current) => current === 0 ? maxPartnerIndex : current - 1);
+
+  useEffect(() => {
+    const updatePartnerStep = () => {
+      const firstLogo = partnerTrackRef.current?.firstElementChild as HTMLElement | null;
+      if (firstLogo) {
+        setPartnerStep(firstLogo.offsetWidth + 24);
+      }
+    };
+
+    updatePartnerStep();
+    window.addEventListener("resize", updatePartnerStep);
+    return () => window.removeEventListener("resize", updatePartnerStep);
+  }, []);
+
+  useEffect(() => {
+    const carouselTimer = window.setInterval(showNextPartner, 2000);
+    return () => window.clearInterval(carouselTimer);
+  }, [maxPartnerIndex]);
+
   return (
     <>
       <Helmet>
@@ -350,19 +377,37 @@ export default function Home() {
                 <h3 className="text-2xl font-bold text-foreground">Sourcing From Global Brands</h3>
                 <p className="text-muted-foreground">Trusted partnerships across the globe</p>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-                {partnerLogos.map(({ src, scaleClass }) => (
-                  <div
-                    key={src}
-                    className="flex h-24 items-center justify-center overflow-hidden rounded-lg bg-white p-4 transition hover:shadow-lg"
-                  >
-                    <img
-                      src={src}
-                      alt="Partner Logo"
-                      className={`h-12 w-full object-contain grayscale transition hover:grayscale-0 ${scaleClass}`}
-                    />
-                  </div>
-                ))}
+              <div className="flex items-center gap-4">
+                <button
+                  type="button"
+                  onClick={showPreviousPartner}
+                  aria-label="Show previous partner logos"
+                  className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-primary bg-background text-lg font-semibold text-primary shadow-card transition-all duration-300 hover:-translate-y-1 hover:bg-primary hover:text-primary-foreground hover:shadow-elevated md:inline-flex"
+                >
+                  ←
+                </button>
+                <div className="min-w-0 flex-1 overflow-hidden">
+                <motion.div
+                  ref={partnerTrackRef}
+                  className="flex w-full gap-6"
+                  animate={{ x: -(partnerIndex * partnerStep) }}
+                  transition={{ duration: 0.45, ease: "easeOut" }}
+                >
+                  {partnerLogos.map(({ src, scaleClass }) => (
+                    <div key={src} className="flex h-24 w-1/2 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white p-4 transition hover:shadow-lg md:w-[calc((100%_-_4.5rem)_/_4)]">
+                      <img src={src} alt="Partner Logo" className={`h-12 w-full object-contain grayscale transition hover:grayscale-0 ${scaleClass}`} />
+                    </div>
+                  ))}
+                </motion.div>
+                </div>
+                <button
+                  type="button"
+                  onClick={showNextPartner}
+                  aria-label="Show next partner logos"
+                  className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-primary bg-background text-lg font-semibold text-primary shadow-card transition-all duration-300 hover:-translate-y-1 hover:bg-primary hover:text-primary-foreground hover:shadow-elevated md:inline-flex"
+                >
+                  →
+                </button>
               </div>
             </div>
           </div>
