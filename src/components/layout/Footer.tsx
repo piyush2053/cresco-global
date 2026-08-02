@@ -66,7 +66,6 @@ export default function Footer() {
             <h3 className="text-sm font-semibold text-foreground mb-4 font-headline">Resources</h3>
             <ul className="space-y-3">
               <li><Link className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300" to="/knowledge-center">Knowledge Center</Link></li>
-              <li><Link className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300" to="/support">Support</Link></li>
             </ul>
           </div>
 
@@ -81,10 +80,10 @@ export default function Footer() {
           <div>
             <h3 className="text-sm font-semibold text-foreground mb-4 font-headline">Legal</h3>
             <ul className="space-y-3">
-              <li><Link className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300" to="/privacy">Privacy Policy</Link></li>
+              <li><span className="cursor-not-allowed text-sm text-muted-foreground opacity-60" aria-disabled="true">Privacy Policy</span></li>
               <li><Link className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300" to="/terms">Terms of Service</Link></li>
-              <li><Link className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300" to="/cookies">Cookie Policy</Link></li>
-              <li><Link className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300" to="/compliance">Compliance</Link></li>
+              <li><span className="cursor-not-allowed text-sm text-muted-foreground opacity-60" aria-disabled="true">Cookie Policy</span></li>
+              <li><span className="cursor-not-allowed text-sm text-muted-foreground opacity-60" aria-disabled="true">Compliance</span></li>
             </ul>
           </div>
         </div>

@@ -1,10 +1,12 @@
 import { Helmet } from "react-helmet-async";
-import { FileQuestion } from "lucide-react";
+import { FileQuestion, MessageCircle } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 
 export default function ProductFileUnavailable() {
   const { document } = useParams();
   const fileName = document?.replace(/\.pdf$/i, "").replaceAll("-", " ");
+  const whatsappMessage = `Please Share TDS and availability of ${fileName || "this product"}`;
+  const whatsappUrl = `https://wa.me/919175775763?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
     <>
@@ -22,9 +24,20 @@ export default function ProductFileUnavailable() {
             <p className="mt-3 leading-relaxed text-muted-foreground">
               Sorry, the product file{fileName ? ` for ${fileName}` : ""} is not handy with us right now. We will update it soon. Thank you.
             </p>
-            <Link to="/products" className="mt-6 inline-flex rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90">
-              Back to products
-            </Link>
+            <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+              >
+                <MessageCircle size={18} />
+                Request TDS & availability
+              </a>
+              <Link to="/products" className="inline-flex items-center justify-center rounded-lg border border-primary bg-background px-5 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground">
+                Back to products
+              </Link>
+            </div>
           </div>
         </div>
       </section>

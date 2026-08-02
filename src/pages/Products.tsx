@@ -9,6 +9,7 @@ import {
   FlaskConical,
   Globe2,
   Layers3,
+  MessageCircle,
   PackageSearch,
   Search,
   SlidersHorizontal,
@@ -345,6 +346,9 @@ export default function Products() {
     setApplication("All");
   };
 
+  const requestedGrade = search.trim() || `${category}${method !== "All" ? ` ${method}` : ""}`;
+  const gradeRequestUrl = `https://wa.me/919175775763?text=${encodeURIComponent(`Hi,\nPlease Share Availability of ${requestedGrade}\nQuantity :\nDelivery Location :`)}`;
+
   return (
     <>
       <Helmet>
@@ -477,11 +481,22 @@ export default function Products() {
               <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-xl bg-muted text-primary">
                 <PackageSearch size={30} />
               </span>
-              <h2 className="mt-6 font-headline text-2xl font-bold text-foreground">Grades coming soon</h2>
-              <p className="mx-auto mt-3 max-w-md text-muted-foreground">No {category} grades are available in the current catalogue. Please try another category or clear the filters.</p>
-              <button type="button" onClick={resetFilters} className="mt-6 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90">
-                Clear all filters
-              </button>
+              <h2 className="mt-6 font-headline text-2xl font-bold text-foreground">Grade unavailable</h2>
+              <p className="mx-auto mt-3 max-w-md text-muted-foreground">This grade might be out of stock. Click on inquire to know the availability.</p>
+              <div className="mt-6 flex flex-col items-center gap-3">
+                <a
+                  href={gradeRequestUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg border border-primary bg-background px-5 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+                >
+                  <MessageCircle size={18} />
+                  Inquire availability
+                </a>
+                <button type="button" onClick={resetFilters} className="rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90">
+                  Clear all filters
+                </button>
+              </div>
             </motion.section>
           )}
         </div>
