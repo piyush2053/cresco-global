@@ -6,13 +6,13 @@ import {
   ChevronDown,
   Download,
   Droplets,
-  Filter,
   FlaskConical,
   Globe2,
-  LayoutGrid,
+  Layers3,
   PackageSearch,
   Search,
   SlidersHorizontal,
+  Sparkles,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -26,6 +26,7 @@ interface Product {
   description: string;
   datasheet: string;
   sample?: string;
+  category?: string;
 }
 
 interface FilterBarProps {
@@ -59,6 +60,23 @@ const applicationChips = [
   { label: "Masterbatch", value: "Masterbatch" },
   { label: "Inks", value: "Inks" },
 ];
+
+const titaniumDioxideCategory = "Titanium Dioxide (TiO2)";
+
+const productCategories = [
+  { label: titaniumDioxideCategory, Icon: Droplets },
+  { label: "Optical Brightener", Icon: Sparkles },
+  { label: "Wax", Icon: Layers3 },
+  { label: "Stearates", Icon: FlaskConical },
+  { label: "Stearic Acids", Icon: FlaskConical },
+  { label: "Lithopone", Icon: Layers3 },
+  { label: "Carbon", Icon: PackageSearch },
+  { label: "Processing Aids", Icon: SlidersHorizontal },
+];
+
+function getProductCategory(product: Product) {
+  return product.category || titaniumDioxideCategory;
+}
 
 interface FilterSelectProps {
   label: string;
@@ -272,6 +290,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [category, setCategory] = useState(titaniumDioxideCategory);
   const [search, setSearch] = useState("");
   const [company, setCompany] = useState("All");
   const [country, setCountry] = useState("All");
@@ -309,15 +328,17 @@ export default function Products() {
 
     return products.filter((product) => (
       (!searchTerm || [product.grade, product.company, product.application].some((value) => value.toLowerCase().includes(searchTerm))) &&
+      getProductCategory(product) === category &&
       (company === "All" || product.company === company) &&
       (country === "All" || product.country === country) &&
       (method === "All" || product.method === method) &&
       (application === "All" || product.application === application)
     ));
-  }, [application, company, country, method, products, search]);
+  }, [application, category, company, country, method, products, search]);
 
   const resetFilters = () => {
     setSearch("");
+    setCategory(titaniumDioxideCategory);
     setCompany("All");
     setCountry("All");
     setMethod("All");
@@ -334,46 +355,73 @@ export default function Products() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.header {...fadeUp} className="mb-10 max-w-3xl md:mb-12">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
-              <Droplets size={16} />
-              Titanium Dioxide Solutions
+              <Layers3 size={16} />
+              Industrial Product Range
             </div>
-            <h1 className="font-headline text-4xl font-bold tracking-tight text-foreground md:text-5xl">Titanium Dioxide Products</h1>
+            <h1 className="font-headline text-4xl font-bold tracking-tight text-foreground md:text-5xl">Products</h1>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
-              Explore dependable titanium dioxide grades sourced for coatings, plastics, inks, and other industrial applications.
+              Browse product categories and discover grades selected for your manufacturing requirements.
             </p>
           </motion.header>
 
-          <section className="mb-10 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
-            {[
-              { title: "By Application", description: "Explore grades tailored to your end-use requirements.", Icon: LayoutGrid, action: () => setApplication("All") },
-              { title: "By Process", description: "Compare grades by their manufacturing process.", Icon: FlaskConical, action: () => setMethod("All") },
-            ].map(({ title, description, Icon, action }, index) => (
-              <motion.button
-                key={title}
-                type="button"
-                {...fadeUp}
-                transition={{ duration: 0.4, delay: index * 0.08 }}
-                onClick={action}
-                className="group flex items-start justify-between gap-6 rounded-xl border border-border bg-card p-6 text-left shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-elevated"
-              >
-                <div>
-                  <p className="mb-2 text-sm font-semibold text-primary">Browse products</p>
-                  <h2 className="font-headline text-2xl font-bold text-foreground">{title}</h2>
-                  <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">{description}</p>
-                </div>
-                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-muted text-primary transition-transform duration-300 group-hover:scale-110">
-                  <Icon size={25} />
-                </span>
-              </motion.button>
-            ))}
-          </section>
-
           <motion.section {...fadeUp} className="mb-10">
             <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <h2 className="font-headline text-2xl font-bold text-foreground">Browse by application</h2>
-              <p className="text-sm text-muted-foreground">Select an application to narrow the range.</p>
+              <div>
+                <p className="mb-1 text-sm font-semibold text-primary">Product categories</p>
+                <h2 className="font-headline text-2xl font-bold text-foreground">Select a product</h2>
+              </div>
+              <p className="text-sm text-muted-foreground">Grades appear immediately after selecting a category.</p>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              {productCategories.map(({ label, Icon }, index) => {
+                const isSelected = category === label;
+
+                return (
+                  <motion.button
+                    key={label}
+                    type="button"
+                    {...fadeUp}
+                    transition={{ duration: 0.35, delay: Math.min(index * 0.03, 0.18) }}
+                    onClick={() => {
+                      setCategory(label);
+                      setMethod("All");
+                      setApplication("All");
+                    }}
+                    className={`group flex items-center gap-3 rounded-xl border p-4 text-left shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-elevated ${isSelected ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground hover:border-primary"}`}
+                  >
+                    <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110 ${isSelected ? "bg-primary-foreground/10 text-primary-foreground" : "bg-muted text-primary"}`}>
+                      <Icon size={20} />
+                    </span>
+                    <span className="text-sm font-semibold leading-tight">{label}</span>
+                  </motion.button>
+                );
+              })}
+            </div>
+          </motion.section>
+
+          {category === titaniumDioxideCategory && (
+          <motion.section {...fadeUp} className="mb-10">
+            <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <h2 className="font-headline text-2xl font-bold text-foreground">Titanium Dioxide grades</h2>
+              <p className="text-sm text-muted-foreground">Choose a process or application to narrow the grades.</p>
+            </div>
+            <div className="mb-4 flex flex-wrap gap-3">
+              {[
+                { label: "All grades", value: "All" },
+                { label: "Rutile", value: "Rutile" },
+                { label: "Anatase", value: "Anatase" },
+              ].map((process) => (
+                <button
+                  key={process.value}
+                  type="button"
+                  onClick={() => setMethod(process.value)}
+                  className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${method === process.value ? "bg-primary text-primary-foreground" : "bg-muted text-foreground hover:bg-primary/10 hover:text-primary"}`}
+                >
+                  {process.label}
+                </button>
+              ))}
+            </div>
+            <div className="flex flex-wrap gap-3 border-t border-border pt-4">
               <button
                 type="button"
                 onClick={() => setApplication("All")}
@@ -393,6 +441,7 @@ export default function Products() {
               ))}
             </div>
           </motion.section>
+          )}
 
           <FilterBar
             search={search}
@@ -414,7 +463,7 @@ export default function Products() {
           <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="mb-1 text-sm font-semibold text-primary">Product catalogue</p>
-              <h2 className="font-headline text-3xl font-bold text-foreground">Available grades</h2>
+              <h2 className="font-headline text-3xl font-bold text-foreground">{category} grades</h2>
             </div>
             <p className="text-sm text-muted-foreground">{filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"} found</p>
           </div>
@@ -428,8 +477,8 @@ export default function Products() {
               <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-xl bg-muted text-primary">
                 <PackageSearch size={30} />
               </span>
-              <h2 className="mt-6 font-headline text-2xl font-bold text-foreground">No matching products</h2>
-              <p className="mx-auto mt-3 max-w-md text-muted-foreground">Try adjusting your search or filters to see more suitable grades.</p>
+              <h2 className="mt-6 font-headline text-2xl font-bold text-foreground">Grades coming soon</h2>
+              <p className="mx-auto mt-3 max-w-md text-muted-foreground">No {category} grades are available in the current catalogue. Please try another category or clear the filters.</p>
               <button type="button" onClick={resetFilters} className="mt-6 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90">
                 Clear all filters
               </button>
