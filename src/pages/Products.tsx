@@ -11,6 +11,7 @@ import {
   Layers3,
   MessageCircle,
   PackageSearch,
+  RotateCcw,
   Search,
   SlidersHorizontal,
   Sparkles,
@@ -45,6 +46,7 @@ interface FilterBarProps {
   onCountryChange: (value: string) => void;
   onMethodChange: (value: string) => void;
   onApplicationChange: (value: string) => void;
+  onClearFilters: () => void;
 }
 
 const fadeUp = {
@@ -153,6 +155,7 @@ function FilterBar({
   onCountryChange,
   onMethodChange,
   onApplicationChange,
+  onClearFilters,
 }: FilterBarProps) {
   const [openField, setOpenField] = useState<string | null>(null);
   const filterRef = useRef<HTMLElement>(null);
@@ -176,14 +179,20 @@ function FilterBar({
 
   return (
     <motion.section ref={filterRef} {...fadeUp} className="mb-10 rounded-xl border border-border bg-card p-6 shadow-card md:p-8">
-      <div className="mb-6 flex items-center gap-3">
-        <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-          <SlidersHorizontal size={20} />
-        </span>
-        <div>
-          <h2 className="font-headline text-xl font-bold text-foreground">Find the right grade</h2>
-          <p className="text-sm text-muted-foreground">Refine the product range to your specifications.</p>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-3">
+          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <SlidersHorizontal size={20} />
+          </span>
+          <div>
+            <h2 className="font-headline text-xl font-bold text-foreground">Find the right grade</h2>
+            <p className="text-sm text-muted-foreground">Refine the product range to your specifications.</p>
+          </div>
         </div>
+        <button type="button" onClick={onClearFilters} className="inline-flex items-center justify-center gap-2 self-start rounded-lg border border-primary bg-background px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground sm:self-auto">
+          <RotateCcw size={16} />
+          Clear filters
+        </button>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
@@ -346,6 +355,14 @@ export default function Products() {
     setApplication("All");
   };
 
+  const clearProductFilters = () => {
+    setSearch("");
+    setCompany("All");
+    setCountry("All");
+    setMethod("All");
+    setApplication("All");
+  };
+
   const requestedGrade = search.trim() || `${category}${method !== "All" ? ` ${method}` : ""}`;
   const gradeRequestUrl = `https://wa.me/919175775763?text=${encodeURIComponent(`Hi,\nPlease Share Availability of ${requestedGrade}\nQuantity :\nDelivery Location :`)}`;
 
@@ -462,6 +479,7 @@ export default function Products() {
             onCountryChange={setCountry}
             onMethodChange={setMethod}
             onApplicationChange={setApplication}
+            onClearFilters={clearProductFilters}
           />
 
           <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
