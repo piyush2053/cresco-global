@@ -75,11 +75,13 @@ const certifications = [
 ];
 
 const partnerLogos = [
-  "/assets/img/partners/partner-1.png",
-  "/assets/img/partners/partner-2.png",
-  "/assets/img/partners/partner-3.png",
-  "/assets/img/partners/partner-4.png",
-  "/assets/img/partners/partner-5.png",
+  { src: "/assets/img/partners/partner-1.jpg", scaleClass: "scale-125" },
+  { src: "/assets/img/partners/partner-2.jpg", scaleClass: "scale-150" },
+  { src: "/assets/img/partners/partner-3.jpg", scaleClass: "scale-125" },
+  { src: "/assets/img/partners/partner-4.png", scaleClass: "scale-100" },
+  { src: "/assets/img/partners/partner-5.png", scaleClass: "scale-100" },
+  { src: "/assets/img/partners/partner-6.png", scaleClass: "scale-100" },
+  { src: "/assets/img/partners/partner-7.png", scaleClass: "scale-100" },
 ];
 
 export default function Home() {
@@ -349,15 +351,15 @@ export default function Home() {
                 <p className="text-muted-foreground">Trusted partnerships across the globe</p>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-                {partnerLogos.map((src) => (
+                {partnerLogos.map(({ src, scaleClass }) => (
                   <div
                     key={src}
-                    className="bg-white rounded-lg p-4 flex items-center justify-center hover:shadow-lg transition"
+                    className="flex h-24 items-center justify-center overflow-hidden rounded-lg bg-white p-4 transition hover:shadow-lg"
                   >
                     <img
                       src={src}
                       alt="Partner Logo"
-                      className="max-h-10 object-contain grayscale hover:grayscale-0 transition"
+                      className={`h-12 w-full object-contain grayscale transition hover:grayscale-0 ${scaleClass}`}
                     />
                   </div>
                 ))}
