@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { MotionConfig } from "framer-motion";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
@@ -16,7 +17,7 @@ const PartnerPortal = lazy(() => import("./pages/PartnerPortal"));
 
 function App() {
   return (
-    <>
+    <MotionConfig reducedMotion="user" transition={{ duration: 0.35 }}>
       <ScrollToTop />
       <Header />
       <main className="pt-16 lg:pt-20">
@@ -35,7 +36,7 @@ function App() {
         </Suspense>
       </main>
       <Footer />
-    </>
+    </MotionConfig>
   );
 }
 

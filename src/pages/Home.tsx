@@ -312,7 +312,7 @@ function ShipRouteSection() {
           {/* Supporting highlights, straight from what we do */}
           <div className="relative mt-7 grid grid-cols-1 gap-3 border-t border-white/10 pt-6 sm:grid-cols-3">
             {routeHighlights.map(({ Icon, label }, index) => (
-              <motion.div key={label} whileHover={{ y: -4 }} className="group flex items-center gap-3 rounded-xl border border-white/10 bg-white/[.06] p-4 backdrop-blur-md transition-colors hover:border-accent/40 hover:bg-white/[.1]">
+              <motion.div key={label} whileHover={{ y: -3 }} className="group flex items-center gap-3 rounded-xl border border-white/10 bg-white/[.07] p-4 transition-colors hover:border-accent/40 hover:bg-white/[.1]">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/10">
                   <Icon size={17} className="text-accent" />
                 </div>
@@ -376,16 +376,8 @@ function GlobalNetworkGlobe() {
 
   return (
     <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
-      <motion.div
-        className="absolute h-[30rem] w-[30rem] rounded-full bg-accent/15 blur-[90px] md:h-[40rem] md:w-[40rem]"
-        animate={{ scale: [0.94, 1.06, 0.94], opacity: [0.35, 0.6, 0.35] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="relative h-[360px] w-[360px] md:h-[500px] md:w-[500px]"
-        animate={{ y: [0, -9, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-      >
+      <div className="absolute h-[30rem] w-[30rem] rounded-full bg-accent/10 blur-[70px] md:h-[40rem] md:w-[40rem]" />
+      <div className="relative h-[360px] w-[360px] md:h-[500px] md:w-[500px]">
         <div className="absolute inset-[4%] rounded-full border border-white/15 bg-[radial-gradient(circle_at_32%_25%,rgba(255,255,255,0.18),rgba(46,89,132,0.12)_35%,rgba(8,59,73,0.4)_72%)] shadow-[inset_-35px_-28px_70px_rgba(0,0,0,0.28),0_0_80px_rgba(230,126,34,0.16)]" />
         <motion.svg
           viewBox="0 0 400 400"
@@ -400,7 +392,6 @@ function GlobalNetworkGlobe() {
               <stop offset=".55" stopColor="#fff" stopOpacity=".34" />
               <stop offset="1" stopColor="#E67E22" stopOpacity=".16" />
             </linearGradient>
-            <filter id="hero-node-glow"><feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
           </defs>
           <g clipPath="url(#hero-globe-clip)" fill="none" stroke="url(#hero-globe-line)" strokeWidth="1">
             <ellipse cx="200" cy="200" rx="178" ry="178" />
@@ -413,23 +404,22 @@ function GlobalNetworkGlobe() {
         </motion.svg>
 
         <svg viewBox="0 0 400 400" className="absolute inset-0 h-full w-full overflow-visible">
-          <defs><filter id="hero-route-glow"><feGaussianBlur stdDeviation="2.5" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter></defs>
-          <g fill="none" stroke="#E67E22" strokeLinecap="round" filter="url(#hero-route-glow)">
+          <g fill="none" stroke="#E67E22" strokeLinecap="round">
             <motion.path d="M117 105 Q190 22 244 126" strokeWidth="1.4" initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: [0, 1, 1], opacity: [0, .8, .15] }} transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }} />
             <motion.path d="M163 172 Q238 110 280 187" strokeWidth="1.2" initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: [0, 1, 1], opacity: [0, .7, .12] }} transition={{ duration: 5, delay: 1, repeat: Infinity, ease: "easeInOut" }} />
             <motion.path d="M184 78 Q122 142 163 172" strokeWidth="1" initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: [0, 1, 1], opacity: [0, .65, .1] }} transition={{ duration: 4, delay: 2, repeat: Infinity, ease: "easeInOut" }} />
           </g>
           {nodes.map((node) => (
-            <g key={`${node.cx}-${node.cy}`} filter="url(#hero-node-glow)">
+            <g key={`${node.cx}-${node.cy}`}>
               <motion.circle cx={node.cx} cy={node.cy} r="7" fill="none" stroke="#E67E22" strokeWidth="1" animate={{ r: [4, 11, 4], opacity: [.8, 0, .8] }} transition={{ duration: 2.8, delay: node.delay, repeat: Infinity }} />
               <circle cx={node.cx} cy={node.cy} r="3" fill="#fff" />
             </g>
           ))}
         </svg>
 
-        <motion.div className="absolute inset-[-7%] rounded-full border border-white/10" animate={{ rotateX: [62, 62], rotateZ: 360 }} transition={{ duration: 28, repeat: Infinity, ease: "linear" }} />
-        <motion.div className="absolute inset-[8%] rounded-full border border-dashed border-accent/25" animate={{ rotateX: [72, 72], rotateZ: -360 }} transition={{ duration: 34, repeat: Infinity, ease: "linear" }} />
-      </motion.div>
+        <motion.div className="absolute inset-[-7%] rounded-full border border-white/10" animate={{ rotateX: [62, 62], rotateZ: 360 }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }} />
+        <div className="absolute inset-[8%] rounded-full border border-dashed border-accent/20 [transform:rotateX(72deg)]" />
+      </div>
     </div>
   );
 }
@@ -470,15 +460,11 @@ export default function Home() {
         <section className="relative bg-gradient-to-br from-primary via-secondary to-primary overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
             {/* soft ambient light, drifting slowly */}
-            <motion.div
+            <div
               className="absolute top-0 left-0 w-96 h-96 bg-accent rounded-full blur-3xl opacity-10"
-              animate={{ x: [0, 30, 0], y: [0, 20, 0] }}
-              transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
             />
-            <motion.div
+            <div
               className="absolute bottom-0 right-0 w-96 h-96 bg-accent rounded-full blur-3xl opacity-10"
-              animate={{ x: [0, -30, 0], y: [0, -20, 0] }}
-              transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
             />
             {/* faint counter-rotating orbit rings — a quiet "global network" motif */}
             <motion.div
@@ -486,10 +472,8 @@ export default function Home() {
               animate={{ rotate: 360 }}
               transition={{ duration: 70, repeat: Infinity, ease: "linear" }}
             />
-            <motion.div
+            <div
               className="absolute -right-32 -top-32 w-[420px] h-[420px] scale-[0.72] rounded-full border border-dashed border-white/10"
-              animate={{ rotate: -360 }}
-              transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
             />
             <div className="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(rgba(255,255,255,.6)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.6)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:linear-gradient(to_bottom,black,transparent_90%)]" />
           </div>
@@ -563,7 +547,7 @@ export default function Home() {
                       initial={{ opacity: 0, y: 22 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: .25 + index * .09, duration: .5 }}
-                      className="group relative overflow-hidden rounded-xl border border-white/15 bg-[#062f3a]/70 p-4 shadow-[0_18px_50px_rgba(0,0,0,.2)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 md:p-5"
+                      className="group relative overflow-hidden rounded-xl border border-white/15 bg-[#062f3a]/90 p-4 shadow-[0_18px_50px_rgba(0,0,0,.2)] transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 md:p-5"
                     >
                       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/45 to-transparent" />
                       <div className="flex items-center justify-between">
