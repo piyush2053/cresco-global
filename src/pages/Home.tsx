@@ -202,7 +202,7 @@ function ShipRouteSection() {
 
           {/* Origin / Destination labels — positioned in % so they always line up with the SVG */}
           <div
-            className="absolute z-20 flex -translate-x-1/2 flex-col items-center"
+            className="absolute z-20 flex flex-col items-start"
             style={{ left: originPct.left, top: originPct.top }}
           >
             <span className="relative mb-3 flex h-3 w-3">
@@ -211,12 +211,12 @@ function ShipRouteSection() {
             </span>
             <div className="rounded-xl border border-white/15 bg-[#052934]/90 px-3 py-2 text-center shadow-xl backdrop-blur-xl md:px-4">
               <div className="text-[9px] font-semibold uppercase tracking-[.2em] text-accent">Origin</div>
-              <div className="mt-1 whitespace-nowrap text-[10px] font-semibold text-white md:text-xs">International Manufacturers</div>
+              <div className="mt-1 whitespace-nowrap text-[10px] font-semibold text-white md:text-xs">Manufacturers</div>
             </div>
           </div>
 
           <div
-            className="absolute z-20 flex -translate-x-1/2 flex-col items-center"
+            className="absolute z-20 flex -translate-x-full flex-col items-end"
             style={{ left: destPct.left, top: destPct.top }}
           >
             <span className="relative mb-3 flex h-3 w-3">
