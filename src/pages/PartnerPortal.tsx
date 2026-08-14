@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/SEO";
 import { motion } from "framer-motion";
 import { Sparkles, MessageCircle, Globe, TrendingUp, Shield } from "lucide-react";
 
@@ -30,10 +30,7 @@ const highlights = [
 export default function PartnerPortal() {
   return (
     <>
-      <Helmet>
-        <title>Partner Portal - GlobalTrade Hub | Join Our Global Network</title>
-        <meta name="description" content="crescoglobal" />
-      </Helmet>
+      <SEO title="Chemical Supply Enquiries India | Cresco Global" description="Send Cresco Global your titanium dioxide or additive requirement, application, quantity and delivery location for a focused supply response." canonical="/partner-portal" />
 
       <section className="relative bg-gradient-to-br from-primary via-secondary to-primary overflow-hidden">
         <div className="absolute inset-0 opacity-10">

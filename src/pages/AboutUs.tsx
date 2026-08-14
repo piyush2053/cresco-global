@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/SEO";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -90,13 +90,7 @@ const visionCards = [
 export default function AboutUs() {
   return (
     <>
-      <Helmet>
-        <title>About Us | Cresco Global – Trusted Additives Partner</title>
-        <meta
-          name="description"
-          content="Cresco Global specializes in the global sourcing and supply of Titanium Dioxide (TiO₂) and performance additives, serving diverse industrial applications with quality, reliability, and efficiency."
-        />
-      </Helmet>
+      <SEO title="About Our Chemical Supply Network | Cresco Global" description="Learn how Cresco Global sources titanium dioxide and performance additives for Indian manufacturers with technical focus and dependable service." canonical="/success-stories" />
 
       {/* ===================== HERO ===================== */}
       <section className="relative bg-gradient-to-br from-primary via-secondary to-primary py-20">
@@ -213,7 +207,7 @@ export default function AboutUs() {
                 }`}
               >
                 <div className="lg:w-1/2 h-64 lg:h-auto overflow-hidden">
-                  <img src={image} alt={alt} className="w-full h-full object-cover" />
+                  <img src={image} alt={alt} loading="lazy" className="w-full h-full object-cover" />
                 </div>
                 <div className="lg:w-1/2 p-6 md:p-8 lg:p-10 flex flex-col justify-center">
                   <div

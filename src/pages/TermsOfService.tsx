@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/SEO";
 import { FileText } from "lucide-react";
 
 const sections = [
@@ -81,9 +81,7 @@ const sections = [
 export default function TermsOfService() {
   return (
     <>
-      <Helmet>
-        <title>Terms of Service | Cresco Global</title>
-      </Helmet>
+      <SEO title="Website Terms of Service | Cresco Global India" description="Read the terms governing access to and use of the Cresco Global website, product information, enquiries, intellectual property and liability." canonical="/terms" />
 
       <section className="bg-background py-12 md:py-16 lg:py-20">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">

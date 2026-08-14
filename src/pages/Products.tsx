@@ -1,4 +1,7 @@
-import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
+import SEO from "../components/SEO";
+import Breadcrumbs from "../components/Breadcrumbs";
+import { products as productCatalog } from "../data/products";
 import { motion } from "framer-motion";
 import {
   Building2,
@@ -29,6 +32,7 @@ interface Product {
   datasheet: string;
   sample?: string;
   category?: string;
+  slug: string;
 }
 
 interface FilterBarProps {
@@ -242,7 +246,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           </span>
           <Droplets size={20} className="shrink-0 text-primary-foreground/70" />
         </div>
-        <h3 className="font-headline text-2xl font-bold tracking-tight text-primary-foreground">{product.grade}</h3>
+        <h3 className="font-headline text-2xl font-bold tracking-tight text-primary-foreground"><Link to={`/products/${product.slug}`} className="hover:underline">{product.grade}</Link></h3>
       </div>
 
       <div className="p-4">
@@ -275,6 +279,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         </div>
 
         <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <Link to={`/products/${product.slug}`} className="inline-flex items-center justify-center rounded-lg bg-secondary px-4 py-2.5 text-sm font-semibold text-white sm:col-span-2">View grade details</Link>
           <a
             href={product.datasheet}
             target="_blank"
@@ -299,34 +304,13 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 }
 
 export default function Products() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const products = productCatalog as Product[];
   const [category, setCategory] = useState(titaniumDioxideCategory);
   const [search, setSearch] = useState("");
   const [company, setCompany] = useState("All");
   const [country, setCountry] = useState("All");
   const [method, setMethod] = useState("All");
   const [application, setApplication] = useState("All");
-
-  useEffect(() => {
-    let isMounted = true;
-
-    fetch("/data/products.json")
-      .then((response) => response.json())
-      .then((data: unknown) => {
-        if (isMounted && Array.isArray(data)) {
-          setProducts(data as Product[]);
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setProducts([]);
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   const companies = useMemo(() => [...new Set(products.map((product) => product.company).filter(Boolean))], [products]);
   const countries = useMemo(() => [...new Set(products.map((product) => product.country).filter(Boolean))], [products]);
@@ -368,12 +352,11 @@ export default function Products() {
 
   return (
     <>
-      <Helmet>
-        <title>Products | Cresco Global</title>
-      </Helmet>
+      <SEO title="Titanium Dioxide Grades India | Cresco Global" description="Compare titanium dioxide grades for paints, coatings, plastics, masterbatch and inks. Explore technical details and request supply in India." canonical="/products" />
 
       <main className="min-h-screen bg-background py-12 md:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Breadcrumbs items={[{ name: "Home", path: "/" }, { name: "Products", path: "/products" }]} />
           <motion.header {...fadeUp} className="mb-10 max-w-3xl md:mb-12">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
               <Layers3 size={16} />

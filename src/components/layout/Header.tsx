@@ -24,7 +24,8 @@ export default function Header() {
               <div>
                 <img
                   src="/assets/img/logo.png"
-                  alt="Cresco Global"
+                  alt="Cresco Global chemical additives supplier logo"
+                  loading="eager"
                   className="w-12 h-12 object-contain"
                 />
               </div>

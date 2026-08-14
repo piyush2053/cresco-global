@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/SEO";
 import { motion } from "framer-motion";
 import {
   Layers, FileText, Globe, TrendingUp, Users, Bookmark, User,
@@ -154,13 +154,7 @@ export default function KnowledgeCenter() {
 
   return (
     <>
-      <Helmet>
-        <title>Knowledge Center | Cresco Global – Additives & Technical Resources</title>
-        <meta
-          name="description"
-          content="Explore technical guides, application insights, and sourcing knowledge for Titanium Dioxide and performance additives across paints, plastics, inks, paper, and allied industries."
-        />
-      </Helmet>
+      <SEO title="Chemical Additives Knowledge Center | Cresco Global" description="Explore technical guides and sourcing insights for titanium dioxide and performance additives used in paints, plastics, inks, paper and coatings." canonical="/knowledge-center" />
 
       {/* ===================== HERO ===================== */}
       <section className="relative bg-gradient-to-br from-primary via-secondary to-primary overflow-hidden">
@@ -251,6 +245,7 @@ export default function KnowledgeCenter() {
                   <img
                     src={a.image}
                     alt={a.alt}
+                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-4 left-4 flex items-center space-x-2">
@@ -306,6 +301,7 @@ export default function KnowledgeCenter() {
                     <img
                       src={r.image}
                       alt={r.alt}
+                      loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-4 left-4">

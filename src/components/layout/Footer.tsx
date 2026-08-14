@@ -13,7 +13,8 @@ export default function Footer() {
               <div className="flex justify-start" style={{ marginLeft: "-40px" }}>
                 <img
                   src="/assets/img/full-logo.png"
-                  alt="Cresco Global"
+                  alt="Cresco Global chemical additives supplier"
+                  loading="lazy"
                   className="w-full h-15 object-contain ml-0 mr-auto"
                 />
               </div>

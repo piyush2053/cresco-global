@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/SEO";
 import { motion } from "framer-motion";
 
 const fadeUp = {
@@ -14,10 +14,7 @@ const mapsUrl = "https://maps.google.com/maps?q=412%2C%20Princess%20Plaza%2C%20S
 export default function ContactUs() {
   return (
     <>
-      <Helmet>
-        <title>Contact Us | Cresco Global</title>
-        <meta name="description" content="Contact Cresco Global for industrial additives and titanium dioxide sourcing." />
-      </Helmet>
+      <SEO title="Contact Chemical Suppliers India | Cresco Global" description="Contact Cresco Global for titanium dioxide grades, industrial additives, technical documents, samples, quotations and supply enquiries in India." canonical="/services" />
 
       <section className="bg-gradient-to-br from-primary via-secondary to-primary py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">

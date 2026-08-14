@@ -1,4 +1,5 @@
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/SEO";
+import { SITE_URL } from "../data/products";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -114,17 +115,7 @@ export default function Home() {
 
   return (
     <>
-      <Helmet>
-        <title>Focused on Additives. Driven by Reliability | Cresco Global</title>
-        <meta
-          name="description"
-          content="Cresco Global is India’s only fully import-driven, additives-focused company. Simplify sourcing in India’s niche additives market through trust, transparency, and reliability."
-        />
-        <meta
-          name="keywords"
-          content="titanium dioxide, performance additives, paints, coatings, plastics, inks, paper, global sourcing, import-driven, additives partner"
-        />
-      </Helmet>
+      <SEO title="Chemical Additives Supplier India | Cresco Global" description="Source titanium dioxide and performance additives for paints, coatings, plastics and inks through Cresco Global's reliable India supply network." canonical="/" schema={{ "@context": "https://schema.org", "@type": "Organization", name: "Cresco Global", url: SITE_URL, logo: `${SITE_URL}/assets/img/full-logo.png`, address: { "@type": "PostalAddress", streetAddress: "79/1, Lalpur, Near Kalpataru", addressLocality: "Ujjain", addressRegion: "Madhya Pradesh", postalCode: "456010", addressCountry: "IN" }, sameAs: ["https://www.linkedin.com/company/cresco-global"] }} />
 
       <div className="min-h-screen bg-background">
         {/* ===================== HERO ===================== */}
@@ -395,7 +386,7 @@ export default function Home() {
                 >
                   {partnerLogos.map(({ src, scaleClass }) => (
                     <div key={src} className="flex h-24 w-1/2 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white p-4 transition hover:shadow-lg md:w-[calc((100%_-_4.5rem)_/_4)]">
-                      <img src={src} alt="Partner Logo" className={`h-12 w-full object-contain grayscale transition hover:grayscale-0 ${scaleClass}`} />
+                      <img src={src} alt="Cresco Global chemical manufacturing partner logo" loading="lazy" className={`h-12 w-full object-contain grayscale transition hover:grayscale-0 ${scaleClass}`} />
                     </div>
                   ))}
                 </motion.div>
