@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 import "./index.css";
 
 const Home = lazy(() => import("./pages/Home"));
@@ -16,6 +17,7 @@ const PartnerPortal = lazy(() => import("./pages/PartnerPortal"));
 function App() {
   return (
     <>
+      <ScrollToTop />
       <Header />
       <main className="pt-16 lg:pt-20">
         <Suspense fallback={<div className="min-h-screen" aria-label="Loading page" />}>
