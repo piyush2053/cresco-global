@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import SEO from "../components/SEO";
 import Breadcrumbs from "../components/Breadcrumbs";
-import { products as productCatalog } from "../data/products";
+import { fetchProducts } from "../lib/productsApi";
 import { motion } from "framer-motion";
 import {
   Building2,
@@ -29,8 +29,8 @@ interface Product {
   grade: string;
   application: string;
   description: string;
-  datasheet: string;
-  sample?: string;
+  datasheet: string | null;
+  sample?: string | null;
   category?: string;
   slug: string;
 }
@@ -280,23 +280,23 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 
         <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
           <Link to={`/products/${product.slug}`} className="inline-flex items-center justify-center rounded-lg bg-secondary px-4 py-2.5 text-sm font-semibold text-white sm:col-span-2">View grade details</Link>
-          <a
-            href={product.datasheet}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            <Download size={17} />
-            Datasheet
-          </a>
-          <a
-            href={product.sample || "/products/sample-unavailable.pdf"}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-lg border border-primary bg-background px-4 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
-          >
-            Request Sample
-          </a>
+          {product.datasheet ? <a
+              href={product.datasheet}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              <Download size={17} />
+              Datasheet
+            </a> : <span className="inline-flex cursor-not-allowed items-center justify-center gap-2 rounded-lg bg-muted px-4 py-2.5 text-sm font-semibold text-muted-foreground" aria-disabled="true"><Download size={17} />Datasheet unavailable</span>}
+          {product.sample ? <a
+              href={product.sample}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-primary bg-background px-4 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+            >
+              Request Sample
+            </a> : <span className="inline-flex cursor-not-allowed items-center justify-center gap-2 rounded-lg border border-border bg-muted px-4 py-2.5 text-sm font-semibold text-muted-foreground" aria-disabled="true">Sample unavailable</span>}
         </div>
       </div>
     </motion.article>
@@ -304,13 +304,29 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 }
 
 export default function Products() {
-  const products = productCatalog as Product[];
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+  const [requestKey, setRequestKey] = useState(0);
   const [category, setCategory] = useState(titaniumDioxideCategory);
   const [search, setSearch] = useState("");
   const [company, setCompany] = useState("All");
   const [country, setCountry] = useState("All");
   const [method, setMethod] = useState("All");
   const [application, setApplication] = useState("All");
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchProducts({ signal: controller.signal, force: requestKey > 0 })
+      .then((catalog) => setProducts(catalog as Product[]))
+      .catch((error) => {
+        if (error?.name !== "AbortError") setLoadError(error.message);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+    return () => controller.abort();
+  }, [requestKey]);
 
   const companies = useMemo(() => [...new Set(products.map((product) => product.company).filter(Boolean))], [products]);
   const countries = useMemo(() => [...new Set(products.map((product) => product.country).filter(Boolean))], [products]);
@@ -473,7 +489,23 @@ export default function Products() {
             <p className="text-sm text-muted-foreground">{filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"} found</p>
           </div>
 
-          {filteredProducts.length > 0 ? (
+          {loading ? (
+            <section className="rounded-xl border border-border bg-card px-6 py-16 text-center shadow-card" aria-live="polite">
+              <p className="font-headline text-xl font-bold text-foreground">Loading product catalogue…</p>
+              <p className="mt-2 text-sm text-muted-foreground">Fetching the latest active grades.</p>
+            </section>
+          ) : loadError ? (
+            <section className="rounded-xl border border-border bg-card px-6 py-16 text-center shadow-card" role="alert">
+              <h2 className="font-headline text-2xl font-bold text-foreground">Product catalogue unavailable</h2>
+              <p className="mx-auto mt-3 max-w-md text-muted-foreground">{loadError}</p>
+              <button type="button" onClick={() => { setLoading(true); setLoadError(""); setRequestKey((key) => key + 1); }} className="mt-6 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90">Retry</button>
+            </section>
+          ) : products.length === 0 ? (
+            <section className="rounded-xl border border-border bg-card px-6 py-16 text-center shadow-card">
+              <h2 className="font-headline text-2xl font-bold text-foreground">No products available</h2>
+              <p className="mt-3 text-muted-foreground">There are currently no active products in the catalogue.</p>
+            </section>
+          ) : filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {filteredProducts.map((product, index) => <ProductCard key={product.id} product={product} index={index} />)}
             </div>

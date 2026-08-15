@@ -1,12 +1,41 @@
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Download, MessageCircle } from "lucide-react";
 import SEO from "../components/SEO";
 import Breadcrumbs from "../components/Breadcrumbs";
-import { getProductBySlug, SITE_URL } from "../data/products";
+import { enrichProduct, SITE_URL } from "../data/products";
+import { fetchProducts } from "../lib/productsApi";
 
 export default function ProductDetail() {
   const { slug } = useParams();
-  const product = getProductBySlug(slug);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+  const [requestKey, setRequestKey] = useState(0);
+  const [loadedSlug, setLoadedSlug] = useState(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchProducts({ signal: controller.signal, force: requestKey > 0 })
+      .then((products) => {
+        const match = products.find((item) => item.slug === slug);
+        setProduct(match ? enrichProduct(match) : null);
+        setLoadedSlug(slug);
+      })
+      .catch((error) => {
+        if (error?.name !== "AbortError") {
+          setLoadError(error.message);
+          setLoadedSlug(slug);
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+    return () => controller.abort();
+  }, [requestKey, slug]);
+
+  if (loading || loadedSlug !== slug) return <section className="mx-auto max-w-4xl px-4 py-20 text-center" aria-live="polite"><h1 className="text-3xl font-bold">Loading product…</h1><p className="mt-4 text-muted-foreground">Fetching the latest product information.</p></section>;
+  if (loadError) return <section className="mx-auto max-w-4xl px-4 py-20 text-center" role="alert"><h1 className="text-3xl font-bold">Product unavailable</h1><p className="mt-4 text-muted-foreground">{loadError}</p><button type="button" onClick={() => { setLoading(true); setLoadError(""); setRequestKey((key) => key + 1); }} className="mt-6 rounded-lg bg-primary px-5 py-3 font-semibold text-primary-foreground">Retry</button></section>;
   if (!product) return <section className="mx-auto max-w-4xl px-4 py-20"><h1 className="text-4xl font-bold">Product not found</h1><p className="mt-4">This product grade is not in our current catalogue.</p><Link to="/products" className="mt-6 inline-block text-primary">Browse all products</Link></section>;
 
   const canonical = `/products/${product.slug}`;
@@ -40,13 +69,13 @@ export default function ProductDetail() {
             {product.body.map((paragraph) => <p key={paragraph} className="mt-5 leading-7 text-muted-foreground">{paragraph}</p>)}
             <h2 className="mt-10 font-headline text-2xl font-bold">Technical and supply information</h2>
             <dl className="mt-5 grid gap-4 rounded-xl border border-border bg-card p-6 sm:grid-cols-2">
-              {[['Manufacturer', product.company], ['Origin', product.country || 'On request'], ['Process', product.method || 'On request'], ['Application', product.application]].map(([term, value]) => <div key={term}><dt className="text-sm font-semibold text-muted-foreground">{term}</dt><dd className="mt-1 font-semibold">{value}</dd></div>)}
+              {[["Manufacturer", product.company], ["Origin", product.country || "On request"], ["Process", product.method || "On request"], ["Application", product.application]].map(([term, value]) => <div key={term}><dt className="text-sm font-semibold text-muted-foreground">{term}</dt><dd className="mt-1 font-semibold">{value}</dd></div>)}
             </dl>
           </section>
           <aside className="h-fit rounded-xl border border-border bg-card p-6 shadow-card">
             <h2 className="text-xl font-bold">Request this grade</h2>
             <p className="mt-2 text-sm text-muted-foreground">Confirm current documentation, sample and commercial availability.</p>
-            <a href={product.datasheet} target="_blank" rel="noopener noreferrer" className="mt-5 flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 font-semibold text-primary-foreground"><Download size={18} /> View datasheet</a>
+            {product.datasheet ? <a href={product.datasheet} target="_blank" rel="noopener noreferrer" className="mt-5 flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 font-semibold text-primary-foreground"><Download size={18} /> View datasheet</a> : <span className="mt-5 flex cursor-not-allowed items-center justify-center gap-2 rounded-lg bg-muted px-4 py-3 font-semibold text-muted-foreground" aria-disabled="true"><Download size={18} /> Datasheet unavailable</span>}
             <a href={enquiry} target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center justify-center gap-2 rounded-lg border border-primary px-4 py-3 font-semibold text-primary"><MessageCircle size={18} /> Enquire now</a>
           </aside>
         </div>

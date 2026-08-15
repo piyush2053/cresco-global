@@ -1,35 +1,8 @@
-import rawProducts from "../../public/data/products.json";
-
 export const SITE_URL = "https://crescoglobal.co.in";
 export const DEFAULT_IMAGE = "/assets/img/full-logo.png";
 export const PRODUCT_CATEGORY = "Titanium Dioxide (TiO2)";
 
-export function slugify(value) {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
-
-const gradeCounts = rawProducts.reduce((counts, product) => {
-  const grade = slugify(product.grade);
-  counts[grade] = (counts[grade] || 0) + 1;
-  return counts;
-}, {});
-const baseSlugCounts = rawProducts.reduce((counts, product) => {
-  const grade = slugify(product.grade);
-  const base = gradeCounts[grade] > 1 ? `${grade}-${slugify(product.application)}` : grade;
-  counts[base] = (counts[base] || 0) + 1;
-  return counts;
-}, {});
-
-export const products = rawProducts.map((product) => {
-  const gradeSlug = slugify(product.grade);
-  const baseSlug = gradeCounts[gradeSlug] > 1
-    ? `${gradeSlug}-${slugify(product.application)}`
-    : gradeSlug;
-  const slug = baseSlugCounts[baseSlug] > 1 ? `${baseSlug}-${product.id}` : baseSlug;
+export function enrichProduct(product) {
   const category = product.category || PRODUCT_CATEGORY;
   const process = product.method || "commercial";
   const origin = product.country || "international";
@@ -42,8 +15,5 @@ export const products = rawProducts.map((product) => {
     `For a ${product.grade} quotation, share the intended ${application.toLowerCase()} use, monthly requirement and delivery location. We will respond with the available supply position and documentation. Product suitability should always be validated through customer trials under actual manufacturing conditions before full-scale adoption.`,
   ];
 
-  return { ...product, category, slug, name, intro, body };
-});
-
-export const productRoutes = products.map(({ slug }) => `/products/${slug}`);
-export const getProductBySlug = (slug) => products.find((product) => product.slug === slug);
+  return { ...product, category, name, intro, body };
+}
