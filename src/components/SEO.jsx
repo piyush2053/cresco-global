@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import JsonLd from "./JsonLd";
 import { DEFAULT_IMAGE, SITE_URL } from "../data/products";
 
-export default function SEO({ title, description, canonical, image = DEFAULT_IMAGE, type = "website", schema }) {
+export default function SEO({ title, description, canonical, image = DEFAULT_IMAGE, type = "website", schema = null }) {
   const url = canonical?.startsWith("http") ? canonical : `${SITE_URL}${canonical || "/"}`;
   const imageUrl = image.startsWith("http") ? image : `${SITE_URL}${image}`;
   return (

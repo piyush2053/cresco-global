@@ -491,7 +491,8 @@ export default function Products() {
 
           {loading ? (
             <section className="rounded-xl border border-border bg-card px-6 py-16 text-center shadow-card" aria-live="polite">
-              <p className="font-headline text-xl font-bold text-foreground">Loading product catalogue…</p>
+              <span className="mx-auto block h-10 w-10 animate-spin rounded-full border-4 border-primary/20 border-t-primary" aria-hidden="true" />
+              <p className="mt-5 font-headline text-xl font-bold text-foreground">Loading product catalogue</p>
               <p className="mt-2 text-sm text-muted-foreground">Fetching the latest active grades.</p>
             </section>
           ) : loadError ? (
