@@ -9,7 +9,9 @@ const fadeUp = {
 };
 
 const officeAddress = "412, Princess Plaza, Scheme No. 54, Opposite Bombay Hospital, Vijay Nagar, Indore, Madhya Pradesh 452010, India";
-const mapsUrl = "https://maps.google.com/maps?q=412%2C%20Princess%20Plaza%2C%20Scheme%20No.%2054%2C%20Opposite%20Bombay%20Hospital%2C%20Vijay%20Nagar%2C%20Indore%2C%20452010";
+const officeCoordinates = "22.75400711264312,75.90155908889305";
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${officeCoordinates}`;
+const mapsEmbedUrl = `https://maps.google.com/maps?q=${officeCoordinates}&z=18&output=embed&iwloc=A`;
 
 export default function ContactUs() {
   return (
@@ -51,7 +53,7 @@ export default function ContactUs() {
       <section className="pb-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="relative overflow-hidden rounded-xl shadow-elevated">
-            <iframe title="Cresco Global Location" src={`${mapsUrl}&z=16&output=embed`} className="min-h-[520px] w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+            <iframe title="Cresco Global Location" src={mapsEmbedUrl} className="min-h-[520px] w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
             <div className="absolute left-6 top-6 w-full max-w-sm rounded-xl border border-border bg-popover/95 p-6 shadow-elevated">
               <h2 className="mb-3 text-xl font-semibold text-foreground">Cresco Global</h2>
               <p className="text-sm leading-relaxed text-muted-foreground">{officeAddress}</p>
